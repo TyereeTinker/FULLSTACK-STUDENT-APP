@@ -9,6 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/student")
+@CrossOrigin
 public class StudentController {
 
     @Autowired
@@ -30,6 +31,4 @@ public class StudentController {
         studentRepo.deleteById(ID);
         return "Student removed";
     }
-
-
 }

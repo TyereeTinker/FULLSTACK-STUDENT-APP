@@ -9,16 +9,23 @@ const genWidth={width: "200px"}
 
 const [fname, setFname] = useState("");
 const [lname, setLname] = useState("");
-const [departId, setDepartId] = useState(0);
+const [departmentId, setDepartId] = useState(1);
 const [email, setEmail] = useState("");
-const [Gender, setGender] = useState("");
+const [gender, setGender] = useState(0);
 
 const genChange = (event) => {
-  setGender(event.target.value);
+  setGender(parseInt(event.target.value));
 };
 
-const addStudent = () => {
-  console.log(fname, lname, departId, email, Gender);
+const addStudent = (e) => {
+  e.preventDefault()
+  const student = {departmentId, fname, lname, email, gender}
+  console.log(student);
+  fetch("http://localhost:8080/student/add", {
+    method:"POST", 
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify(student)
+  }).then(() => {console.log("STUDENT ADDED")})
 }
 
 
@@ -33,12 +40,12 @@ const addStudent = () => {
 
           <FormControl style={genWidth}>
             <InputLabel id="genId"> Gender </InputLabel>
-            <Select labelId="genId" value={Gender} label="Gender" onChange={genChange}>
-              <MenuItem value={"female"}> FEMALE </MenuItem>
-              <MenuItem value={"male"}> MALE </MenuItem>
+            <Select labelId="genId" value={gender} label="Gender" onChange={genChange}>
+              <MenuItem value={0}> MALE </MenuItem> 
+              <MenuItem value={1}> FEMALE </MenuItem>
             </Select>
           </FormControl>
-          <TextField id="outlined-basic" label="DepartmentId" variant="outlined" onChange={((e) => {setDepartId(e.target.value)})}/> 
+          <TextField id="outlined-basic" label="DepartmentId" variant="outlined" onChange={((e) => {setDepartId(parseInt(e.target.value))})}/> 
           <br/> <br/>
 
           <TextField id="outlined-basic" label="E-mail" variant="outlined" fullWidth onChange={((e) => {setEmail(e.target.value)})}/>
