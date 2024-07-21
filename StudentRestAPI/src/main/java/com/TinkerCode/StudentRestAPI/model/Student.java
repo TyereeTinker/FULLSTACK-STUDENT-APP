@@ -12,11 +12,11 @@ public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private int departmentId;
+    private String department;
     private String fname;
     private String lname;
     private String email;
-    private Gender gender;
+    private String gender;
 
     public Student() {
     }
@@ -29,12 +29,12 @@ public class Student {
         this.id = id;
     }
 
-    public int getDepartmentId() {
-        return departmentId;
+    public String getDepartment() {
+        return department;
     }
 
-    public void setDepartmentId(int departmentId) {
-        this.departmentId = departmentId;
+    public void setDepartment(String department) {
+        this.department = department;
     }
 
     public String getFname() {
@@ -61,11 +61,11 @@ public class Student {
         this.email = email;
     }
 
-    public Gender getGender() {
+    public String getGender() {
         return gender;
     }
 
-    public void setGender(Gender gender) {
+    public void setGender(String gender) {
         this.gender = gender;
     }
 }

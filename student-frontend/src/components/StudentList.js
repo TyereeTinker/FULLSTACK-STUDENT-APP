@@ -1,9 +1,7 @@
-import React, { useEffect, useState } from 'react'
-import { Container, Paper } from '@mui/material'
-
+import React, { Fragment, useEffect, useState } from 'react'
+import { Container, Paper, Table } from '@mui/material'
 
 function StudentList() {
-    const paperStyle={padding: "50px 30px", width: "600px", margin: "20px auto"}
 
     const [student, setStudents] = useState([]);
 
@@ -14,17 +12,37 @@ function StudentList() {
     },[])
 
     return (
-       <div>
-            {student.map((stud) =>{
-                return (
-                    <Container>
-                        <Paper elevation={3} style={paperStyle}>
-                            {stud.fname}
-                        </Paper>
-                    </Container>
-                )
-            })}
-        </div>
+        <Fragment>
+            <Table>
+                <thead>
+                    <tr>
+                        <th> ID </th>
+                        <th> Name </th>
+                        <th> Gender </th>
+                        <th> Deparment </th>
+                        <th> Email </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {student.map((stud) =>{
+                        return (
+                            <tr>
+                                <td> {stud.id} </td>
+                                <td> {stud.fname} {stud.lname} </td>
+                                <td> {stud.gender} </td>
+                                <td> {stud.department} </td>
+                                <td> {stud.email} </td>
+                                <td colSpan={2}>
+                                    <button className='btn btn-primary'> EDIT </button>
+                                    <button className='btn btn-danger'> DELETE </button>
+                                </td>
+                            </tr>
+                           
+                        )
+                    })}
+                </tbody>
+            </Table>
+        </Fragment>
     )
 }
 

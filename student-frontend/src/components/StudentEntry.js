@@ -1,61 +1,79 @@
-import React, { useState } from 'react'
-import './Style.css';
+import React, { useState } from "react";
+import { Input, Form, Flex, Select, Button } from 'antd';
+import "./Style.css";
 
-import { Container, Paper, TextField, Select, MenuItem, InputLabel, FormControl, Button } from '@mui/material';
+export default function StudentEntry() {
+  const [modal, setModal] = useState(false);
 
-function StudentEntry() {
-const paperStyle={padding: "50px 30px", width: "600px", margin: "20px auto"}
-const genWidth={width: "200px"}
+  const toggleModal = () => {
+    setModal(!modal);
+  };
 
-const [fname, setFname] = useState("");
-const [lname, setLname] = useState("");
-const [departmentId, setDepartId] = useState(1);
-const [email, setEmail] = useState("");
-const [gender, setGender] = useState(0);
-
-const genChange = (event) => {
-  setGender(parseInt(event.target.value));
-};
-
-const addStudent = (e) => {
-  e.preventDefault()
-  const student = {departmentId, fname, lname, email, gender}
-  console.log(student);
-  fetch("http://localhost:8080/student/add", {
-    method:"POST", 
-    headers:{"Content-Type":"application/json"},
-    body:JSON.stringify(student)
-  }).then(() => {console.log("STUDENT ADDED")})
-}
-
+  if(modal) {
+    document.body.classList.add('active-modal')
+  } else {
+    document.body.classList.remove('active-modal')
+  }
 
   return (
-    <Container>
-      <Paper elevation={3} style={paperStyle}>
-        <form>
-          <TextField id="outlined-basic" label="First Name" variant="outlined" onChange={((e) => {setFname(e.target.value)})}/>
-          <TextField id="outlined-basic" label="Last Name" variant="outlined" onChange={((e) => {setLname(e.target.value)})}/> 
+    <>
+      <button onClick={toggleModal} className="btn-modal"> Open </button>
 
-          <br/> <br/>
-
-          <FormControl style={genWidth}>
-            <InputLabel id="genId"> Gender </InputLabel>
-            <Select labelId="genId" value={gender} label="Gender" onChange={genChange}>
-              <MenuItem value={0}> MALE </MenuItem> 
-              <MenuItem value={1}> FEMALE </MenuItem>
-            </Select>
-          </FormControl>
-          <TextField id="outlined-basic" label="DepartmentId" variant="outlined" onChange={((e) => {setDepartId(parseInt(e.target.value))})}/> 
-          <br/> <br/>
-
-          <TextField id="outlined-basic" label="E-mail" variant="outlined" fullWidth onChange={((e) => {setEmail(e.target.value)})}/>
-          <br/>  <br/>
-
-          <Button size='' variant='contained' onClick={addStudent}> ADD STUDENT </Button>
-        </form>
-      </Paper>
-    </Container>
-  )
+      {modal && (
+        <div className="modal">
+          <div onClick={toggleModal} className="overlay"></div>
+          <div className="modal-content">
+             <Form>
+                <h3> ADD STUDENT </h3>
+                <hr/>
+                <Form.Item
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Form must be complete',
+                    },
+                  ]}
+                >
+                    <Flex vertical gap={12}>
+                      <Flex gap={5}>
+                        <Input placeholder="First Name" variant="outlined" />
+                        <Input placeholder="Last Name" variant="outlined" />
+                      </Flex>
+                      <Input placeholder="E-mail" variant="outlined" />
+                      <Flex gap={5}>
+                        <Select placeholder="Gender"
+                          options={[
+                            {
+                              value: 'MALE',
+                              label: 'Male',
+                            },
+                            {
+                              value: 'FEMALE',
+                              label: 'Female',
+                            },
+                          ]}
+                        />
+                       <Select placeholder="Department"
+                          options={[
+                            {
+                              value: 'MALE',
+                              label: 'Male',
+                            },
+                            {
+                              value: 'FEMALE',
+                              label: 'Female',
+                            },
+                          ]}
+                        />
+                      </Flex>
+                      <Button type="primary"> Add Student </Button>
+                      <Button type="primary" danger onClick={toggleModal}> Cancel </Button>
+                    </Flex>
+                </Form.Item>
+             </Form>
+          </div>
+        </div>
+      )}
+    </>
+  );
 }
-
-export default StudentEntry

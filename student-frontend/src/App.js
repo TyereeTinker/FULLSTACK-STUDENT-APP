@@ -5,7 +5,7 @@ import StudentList from './components/StudentList';
 function App() {
   return (
     <div >
-        <StudentEntry /> 
+        <StudentEntry />
         <StudentList />
     </div>
   );
